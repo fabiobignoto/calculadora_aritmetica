@@ -1,47 +1,72 @@
 <script setup>
-import HelloWorld from './components/HelloWorld.vue'
-import TheWelcome from './components/TheWelcome.vue'
+
+import { reactive } from 'vue';
+import Cabecalho from './components/Cabecalho.vue'
+import Formulario from './components/Formulario.vue'
+import Resultado from './components/Resultado.vue'
+
+
+const estado = reactive({
+  primeiroNumero: 0,
+  segundoNumero: 0,
+  operacao: 'soma',
+
+})
+
+function soma() {
+  return estado.primeiroNumero + estado.segundoNumero;
+}
+
+function subtrai() {
+  return estado.primeiroNumero - estado.segundoNumero;
+}
+
+function multiplica() {
+  return estado.primeiroNumero * estado.segundoNumero;
+}
+
+function divide() {
+  return estado.primeiroNumero / estado.segundoNumero;
+}
+
+function realiza_operacao() {
+
+  switch (estado.operacao) {
+    case 'soma': return soma();
+    case 'subtrai': return subtrai();
+    case 'multiplica': return multiplica();
+    case 'divide': return divide();
+
+
+  }
+}
+
 </script>
 
 <template>
-  <header>
-    <img alt="Vue logo" class="logo" src="./assets/logo.svg" width="125" height="125" />
+  <div class="background p-1 vh-100">
 
-    <div class="wrapper">
-      <HelloWorld msg="You did it!" />
-    </div>
-  </header>
+    <Cabecalho />
+    <Formulario :primeiro="evento => estado.primeiroNumero = parseInt(evento.target.value)"
+      :segundo="evento => estado.segundoNumero = parseInt(evento.target.value)"
+      :opera="evento => estado.operacao = evento.target.value" />
+    <Resultado :calcula="realiza_operacao()"/>
 
-  <main>
-    <TheWelcome />
-  </main>
+
+
+
+  </div>
 </template>
 
-<style scoped>
-header {
-  line-height: 1.5;
+<style>
+select {
+  max-width: 80px;
+  width: 100%;
 }
 
-.logo {
-  display: block;
-  margin: 0 auto 2rem;
+.background {
+  background-color: rgb(230, 230, 230);
 }
 
-@media (min-width: 1024px) {
-  header {
-    display: flex;
-    place-items: center;
-    padding-right: calc(var(--section-gap) / 2);
-  }
 
-  .logo {
-    margin: 0 2rem 0 0;
-  }
-
-  header .wrapper {
-    display: flex;
-    place-items: flex-start;
-    flex-wrap: wrap;
-  }
-}
 </style>
